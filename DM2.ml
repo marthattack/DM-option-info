@@ -80,6 +80,17 @@ tldn liste s x = match (find_subtree (s.[x]) (Node(false,liste))) with
 |None -> (s.[x],(add_string_aux (Node(false,[])) s (x+1)))::liste
 |Some b -> add_string_aux b s (x+1);;
 
+(*Q8, essai 2*)
+let rec add_string_aux dict s x = match (find_subtree (s.[x]) dict) with
+|None -> (match dict with
+		|Node(false,[]) -> Node(false,tldn [] (String.sub s x ((String.length string)-1)) 0)
+		|Node(a,b) -> Node(a, tldn b s 0))
+|Some b -> add_string_aux dict (String.sub s x ((String.length string)-1)) 0
+and
+tldn liste s x = match liste with
+|[] -> (s.[x], add_string_aux (Node(false,[])) (String.sub s x ((String.length string)-1)) 0)
+|_ -> [(0,add_string_aux (Node(false,[])) (String.sub s x ((String.length string)-1)) 0)]@liste;;
+
 
 
 
