@@ -72,6 +72,13 @@ in aux4 0 tree word;;
 mem ex "ggu";;
 
 (*Q8*)
+let rec add_string_aux dict s x = match dict with
+|Node(false,[]) -> tldn [] s x
+|Node(a,b) -> tldn b s x
+and
+tldn liste s x = match (find_subtree (s.[x]) (Node(false,liste))) with
+|None -> (s.[x],(add_string_aux (Node(false,[])) s (x+1)))::liste
+|Some b -> add_string_aux b s (x+1);;
 
 
 
