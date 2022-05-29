@@ -73,30 +73,18 @@ mem ex "ggu";;
 
 (*Q8*)
 let rec add_string_aux dict s x = match dict with
-|Node(false,[]) -> tldn [] s x
-|Node(a,b) -> tldn b s x
+|Node(a,[]) -> Node(a,(tldn [] s x))
+|Node(a,b) -> match (find_subtree (s.[x]) (Node(a,b))) with
+				|None -> Node(a,(tldn b s x))
+				|Some (v) -> (add_string_aux (deopt (find_subtree (s.[x]) (Node(a,b)))) s (x+1))
 and
-tldn liste s x = match (find_subtree (s.[x]) (Node(false,liste))) with
-|None -> (s.[x],(add_string_aux (Node(false,[])) s (x+1)))::liste
-|Some b -> add_string_aux b s (x+1);;
+tldn (liste:(char * dict) list) s x = match ((String.length s)- x -1) with
+|0 -> [(s.[x], Node(true,[]))]
+| _ ->(s.[x], (add_string_aux (Node(false, [])) s (x+1)))::liste;;
 
-(*Q8, essai 2*)
-let rec add_string_aux dict s x = match (find_subtree (s.[x]) dict) with
-|None -> (match dict with
-		|Node(false,[]) -> Node(false,tldn [] (String.sub s x ((String.length string)-1)) 0)
-		|Node(a,b) -> Node(a, tldn b s 0))
-|Some b -> add_string_aux dict (String.sub s x ((String.length string)-1)) 0
-and
-tldn liste s x = match liste with
-|[] -> (s.[x], add_string_aux (Node(false,[])) (String.sub s x ((String.length string)-1)) 0)
-|_ -> [(0,add_string_aux (Node(false,[])) (String.sub s x ((String.length string)-1)) 0)]@liste;;
+add_string_aux ex "toto" 0;;
 
-(*Q8, essai 3*)
-let rec add_string_aux dict s x = match dict with
-|Node(a,[]) -> tldn s x
-|Node(a,b) -> if (find_subtree (s.[x]) (Node(a,b))) <> None then (add_string_aux (find_subtree (s.[x]) (Node(a,b))) s (x+1)) else (tldn b s x)
-and
-tldn liste s x = liste@[(s.[x], (add_string_aux (Node(false, [])) s (x+1)))];;
+let add_word s d = add_string_aux d s 0;;
 
 
 
