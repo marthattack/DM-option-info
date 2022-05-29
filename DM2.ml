@@ -91,6 +91,13 @@ tldn liste s x = match liste with
 |[] -> (s.[x], add_string_aux (Node(false,[])) (String.sub s x ((String.length string)-1)) 0)
 |_ -> [(0,add_string_aux (Node(false,[])) (String.sub s x ((String.length string)-1)) 0)]@liste;;
 
+(*Q8, essai 3*)
+let rec add_string_aux dict s x = match dict with
+|Node(a,[]) -> tldn s x
+|Node(a,b) -> if (find_subtree (s.[x]) (Node(a,b))) <> None then (add_string_aux (find_subtree (s.[x]) (Node(a,b))) s (x+1)) else (tldn b s x)
+and
+tldn liste s x = liste@[(s.[x], (add_string_aux (Node(false, [])) s (x+1)))];;
+
 
 
 
