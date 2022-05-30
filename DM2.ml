@@ -86,6 +86,36 @@ add_string_aux ex "toto" 0;;
 
 let add_word s d = add_string_aux d s 0;;
 
+(*Q9*)
+
+(*fonction pour renvoyer le maximum d'une liste*)
+let mini (liste:(char*dict) list) = 
+let rec aux6 liste x = match liste with
+|[] -> x
+|(s,Node(a,b))::q -> if s<x then (aux6 q s) else (aux6 q x)
+in match liste with
+|[] -> failwith "liste vide"
+|_ -> aux6 liste '~';;
+
+let truc = ['h';'j';'o';'a';'l';'m'];;
+
+String.make 1 'a' ^ "bc";;
+
+let rec to_string_list dict = match dict with
+|[] -> []
+|(s,Node(a,[]))::q -> if a then [(String.make 1 s)]@(to_string_list q) else [(String.make 1 s)]@(to_string_list q)
+|(s,Node(a,b))::q -> if a then [(String.make 1 s)]@(traitement s b)@(to_string_list q) else (traitement s b)@(to_string_list q)
+and
+traitement c liste = match liste with
+|[] -> []
+|(a,Node(b,l))::q -> let m = (mini liste) in if a=m then (extract c (to_string_list l))@(traitement c q) else (traitement c q)
+and
+extract (c:char) liste = match liste with
+|[] -> []
+|t::q -> (String.make 1 c ^ t)::(extract c q);;
+
+to_string_list ([('a',aux1); ('g',aux2); ('h',aux3); ('i', aux4); ('m', aux5)]);;
+
 
 
 
