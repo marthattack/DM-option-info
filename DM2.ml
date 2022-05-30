@@ -72,6 +72,12 @@ in aux4 0 tree word;;
 mem ex "ggu";;
 
 (*Q8*)
+(*Q8*)
+let deopt dict = match dict with
+|None -> failwith "erreur"
+|Some v -> v;;
+
+
 let rec add_string_aux dict s x = match dict with
 |Node(a,[]) -> Node(a,(tldn [] s x))
 |Node(a,b) -> match (find_subtree (s.[x]) (Node(a,b))) with
